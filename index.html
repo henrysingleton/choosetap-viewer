@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Tap map</title>
+		<link rel="icon" href="/favicon.png">
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"/>
+		<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css"/>
+		<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css"/>
+		<style>
+		html, body { margin: 0; padding: 0}
+		body { height: 100vh; max-height: 100vh; }
+		.full-height {
+			height: 100vh;
+			flex-direction: column;
+			display: flex;
+		}
+		header {
+			text-align: right;
+			flex: 0 0 auto;
+			padding: 0.5rem 1rem 0.75rem 1rem;
+		}
+		#map {
+			height: 100%;
+			flex: 1 1 auto;
+		}
+		#rm-header {
+			cursor: pointer;
+			margin-left: 1rem;
+		}
+		#rm-header:hover {
+			cursor: pointer;
+		}
+		</style>
+	</head>
+	<body>
+		<div class="full-height">
+			<header>
+				<span>Because the <a href="https://choosetap.com.au/tap-finder/">ChooseTap Tap Finder</a> is too slow</span>
+				<span id="rm-header">&#x274c;</span>
+			</header>
+			<div id="map"></div>
+		</div>
+		<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+		<script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+		<script src="index.js"></script>
+		</script>
+	</body>
+</html>
