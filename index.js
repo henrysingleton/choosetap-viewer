@@ -4,11 +4,11 @@ async function main() {
 	let data = getData()
 	const mapOpts = {
 	}
-	const map = L.map('map', mapOpts).setView([-37.815,144.98], 16);
+	const map = L.map('map', mapOpts).setView([-37.815,144.98], 17);
 	L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
 		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>, Tap data scraped from <a href="https://choosetap.com.au/">ChooseTap</a>',
 		accessToken: 'sk.eyJ1Ijoic2xvcHB5Y2lzbSIsImEiOiJjazRrMGVuODMwMmN5M2p0YXlxejZ0a2FoIn0.Gr1qHzFgUPMh6J6ZvFpAWg',
-		maxZoom: 18,
+		maxZoom: 19,
 		id: 'mapbox/streets-v11'
 	}).addTo(map)
 	try {
