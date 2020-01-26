@@ -22,8 +22,13 @@ async function main() {
 function optimiseTaps(taps) {
 	let arr = []
 	for (const tap of taps) {
-		tap.name = tap.name.trim()
-		tap.location = tap.location.trim()
+		for (const key of ['name', 'location']) {
+			tap[key] = tap[key].trim()
+			if (tap[key].endsWith('\\n')) {
+				tap[key] = tap[key].replace(/\\n/g, '')
+			}
+			tap[key] = tap[key].replace(/\\n/g, ', ')
+		}
 		const lowerLocation = tap.location.toLowerCase()
 		const lowerName = tap.name.toLowerCase()
 		if (lowerLocation.includes('address')) {
@@ -50,6 +55,13 @@ function optimiseTaps(taps) {
 		}
 		if (tap.date_created) {
 			out.desc = `${out.desc}<br>${tap.date_created}`
+		}
+		if (tap.tags && tap.tags.length) {
+			out.tags = tap.tags
+		}
+		if (tap.tags && tap.tags[0] === 5 && tap.tags.length === 1) {
+			console.log('Dropping cafe', tap)
+			continue
 		}
 		arr.push(out)
 	}
