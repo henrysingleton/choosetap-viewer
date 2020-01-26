@@ -4,7 +4,9 @@ async function main() {
 	let data = getData()
 	const mapOpts = {
 	}
-	const map = L.map('map', mapOpts).setView([-37.815,144.98], 17);
+	const map = L.map('map', mapOpts).setView([-37.815,144.98], 17)
+	map.locate({setView: true, maxZoom: 17})
+	map.on('locationerror', onLocationError)
 	L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
 		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>, Tap data scraped from <a href="https://choosetap.com.au/">ChooseTap</a>',
 		accessToken: 'sk.eyJ1Ijoic2xvcHB5Y2lzbSIsImEiOiJjazRrMGVuODMwMmN5M2p0YXlxejZ0a2FoIn0.Gr1qHzFgUPMh6J6ZvFpAWg',
@@ -25,6 +27,7 @@ function events() {
 	const header = rmHeader.parentNode
 	rmHeader.addEventListener('click', () => header.parentNode.removeChild(header))
 }
+
 async function getData() {
 	const response = await fetch('taps.json')
 	const data = response.json()
@@ -37,8 +40,16 @@ function addMarkers(map, taps) {
 	})
 	for (const tap of taps) {
 		const marker = L.marker(tap.loc)//.addTo(map)
-		marker.bindPopup(tap.desc)
+		if (tap.tags) {
+			marker.bindPopup(`${tap.desc} tagged: ${tap.tags.join(', ')}`)
+		} else {
+			marker.bindPopup(tap.desc)
+		}
 		markers.addLayer(marker)
 	}
 	map.addLayer(markers)
+}
+
+function onLocationError(e) {
+	console.log(`Unable to get user location: ${e.message}`);
 }
