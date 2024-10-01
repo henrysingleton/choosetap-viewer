@@ -1,4 +1,5 @@
 const jsonFileName = 'taps.json'
+const domainPrefix = 'https://choosetap.com.au' // Prepended to the script path we extract.
 main()
 
 async function main() {
@@ -74,27 +75,17 @@ function optimiseTaps(taps) {
 async function findBundleURL() {
 	// Download full HTML
 	const response = await get('https://choosetap.com.au/tap-finder/')
-	const html = response.body.toString('utf8')
+	const htmlContent = response.body.toString('utf8')
 
-	// Extract URL of javascript bundle
-	const matches = html.split('<')
-	// Iterate backwards through tags, wanted script is near end of page
-	let i = matches.length
-	while(i--) {
-		const element = matches[i]
-		// Skip closing tags
-		if (element[0] === '/') {
-			continue
-		}
-		// Reject non-script elements
-		if (element.substr(0,7).toLowerCase() !== 'script ') {
-			continue
-		}
-		// Parse <script src="" >
-		const bundleURL = element.match(/.*src=['"](.*)['"]/i)[1]
-		if (bundleURL) {
-			return bundleURL
-		}
+	// We assume the script we want will have "component---src-pages-tap-finder-index-tsx-" in its path.
+	const regex = /<script\s+[^>]*src="(\/component---src-pages-tap-finder-index-tsx-[^"]+)"[^>]*>/;
+	const match = htmlContent.match(regex);
+	if (match) {
+		// Find the first script tag that matches and return it, prefixed with the site domain.
+		console.log('Found script src:', match[1]); // Output: /component---src-pages-tap-finder-index-tsx-471b14ae8f91333ecbf7.js
+		return domainPrefix + match[1]
+	} else {
+		console.log('No match found.');
 	}
 	throw new Error('Unable to extract a bundle URL from a script element')
 }
