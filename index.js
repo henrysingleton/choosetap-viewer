@@ -36,7 +36,7 @@ async function getData() {
 
 function addMarkers(map, taps) {
 	const markers = L.markerClusterGroup({
-		disableClusteringAtZoom: 16
+		disableClusteringAtZoom: 2
 	})
 	for (const tap of taps) {
 		const marker = L.marker(tap.loc)//.addTo(map)
